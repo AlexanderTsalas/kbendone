@@ -14,8 +14,10 @@ import { ServiceDetails } from './components/ServiceDetails';
 import { Distinctions } from './components/Distinctions';
 import { Blog } from './components/Blog';
 import { BlogPostView } from './components/BlogPost';
+import { CustomCursor } from './components/CustomCursor';
 import { ProcedureDetail, ServiceCategory, BlogPost } from './types';
-import { LanguageProvider } from './components/LanguageContext';
+import { LanguageProvider, useLanguage } from './components/LanguageContext';
+import { getServiceTree } from './translations';
 
 const AppContent: React.FC = () => {
   const [currentView, setCurrentView] = useState<'home' | 'services' | 'faq' | 'doctor-bio' | 'service-details' | 'blog' | 'blog-post'>('home');
@@ -23,6 +25,7 @@ const AppContent: React.FC = () => {
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<ServiceCategory | null>(null);
   const [isDark, setIsDark] = useState(true);
+  const { language } = useLanguage();
 
   // Toggle Body Class
   useEffect(() => {
@@ -34,6 +37,32 @@ const AppContent: React.FC = () => {
       document.documentElement.classList.add('light');
     }
   }, [isDark]);
+
+  // Update active service details when language changes
+  useEffect(() => {
+      if (selectedService) {
+          const tree = getServiceTree(language);
+          const findService = (id: string): ProcedureDetail | undefined => {
+              for (const cat of tree) {
+                  if (cat.items) {
+                      const found = cat.items.find(i => i.id === id);
+                      if (found) return found;
+                  }
+                  if (cat.subCategories) {
+                      for (const sub of cat.subCategories) {
+                          const found = sub.items.find(i => i.id === id);
+                          if (found) return found;
+                      }
+                  }
+              }
+              return undefined;
+          };
+          const updatedService = findService(selectedService.id);
+          if (updatedService) {
+              setSelectedService(updatedService);
+          }
+      }
+  }, [language]);
 
   const toggleTheme = () => {
     setIsDark(!isDark);
@@ -79,7 +108,8 @@ const AppContent: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-dark font-sans text-slate-900 dark:text-white transition-colors duration-500 selection:bg-gold selection:text-white">
+    <div className="min-h-screen bg-slate-50 dark:bg-dark font-sans text-slate-900 dark:text-white transition-colors duration-500">
+        <CustomCursor />
         <Header currentView={currentView} onNavigate={handleNavigate} toggleTheme={toggleTheme} isDark={isDark} />
         
         <main>
