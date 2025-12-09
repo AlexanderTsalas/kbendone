@@ -1,6 +1,5 @@
-
 import React, { useState, useEffect } from 'react';
-import { TopNav } from './components/TopNav';
+import { SiteHeader } from './components/SiteHeader';
 import { Hero } from './components/Hero';
 import { Services } from './components/Services';
 import { ServicesPage } from './components/ServicesPage';
@@ -111,7 +110,7 @@ const AppContent: React.FC = () => {
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-dark font-sans text-slate-900 dark:text-white transition-colors duration-500">
         <CustomCursor />
-        <TopNav currentView={currentView} onNavigate={handleNavigate} toggleTheme={toggleTheme} isDark={isDark} />
+        <SiteHeader currentView={currentView} onNavigate={handleNavigate} toggleTheme={toggleTheme} isDark={isDark} />
         
         <main>
           {currentView === 'home' && (
