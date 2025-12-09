@@ -16,7 +16,6 @@ import { Blog } from './components/Blog';
 import { BlogPostView } from './components/BlogPost';
 import { ProcedureDetail, ServiceCategory, BlogPost } from './types';
 import { LanguageProvider } from './components/LanguageContext';
-import { getServiceTree } from './translations';
 
 const AppContent: React.FC = () => {
   const [currentView, setCurrentView] = useState<'home' | 'services' | 'faq' | 'doctor-bio' | 'service-details' | 'blog' | 'blog-post'>('home');
