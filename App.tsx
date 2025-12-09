@@ -71,14 +71,14 @@ const AppContent: React.FC = () => {
     if (view === 'service-details' && data) {
         setSelectedService(data);
         setCurrentView('service-details');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo(0, 0);
     } else if (view === 'blog-post' && data) {
         setSelectedPost(data);
         setCurrentView('blog-post');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo(0, 0);
     } else if (view === 'services') {
         setCurrentView('services');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo(0, 0);
         
         // Define valid categories to prevent routing hashes from being treated as categories
         const validCategories = ['face', 'body', 'breast', 'non-invasive', 'reconstructive', 'skin', 'combined', 'men'];
@@ -101,7 +101,7 @@ const AppContent: React.FC = () => {
                 }
              }, 10);
         } else {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            window.scrollTo(0, 0);
         }
     }
   };
